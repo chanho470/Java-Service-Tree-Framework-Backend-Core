@@ -14,6 +14,8 @@ public class testjira {
     private RestTemplate restTemplate;
     private HttpHeaders httpHeaders;
 
+
+
     public testjira() {
         restTemplate = new RestTemplate();
         httpHeaders = createHeadersWithAuthentication();

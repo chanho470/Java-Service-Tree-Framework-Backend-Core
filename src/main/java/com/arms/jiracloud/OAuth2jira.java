@@ -13,10 +13,17 @@ public class OAuth2jira {
         //httpHeaders = requestautorizationUrl();
     }
 
-    public String requestautorizationUrl(){
-        ResponseEntity<String> response = restTemplate.exchange(autorizationUrl, HttpMethod.GET, null, String.class);
-        System.out.println("인증 URL 리턴22222222"+response);
-        String responseBody = response.getBody();
-        return responseBody;
+//    public String requestautorizationUrl(){
+//        ResponseEntity<String> response = restTemplate.exchange(autorizationUrl, HttpMethod.GET, null, String.class);
+//        System.out.println("인증 URL 리턴22222222"+response);
+//        String responseBody = response.getBody();
+//        return responseBody;
+//    }
+
+    public ResponseEntity requestautorizationUrl(){
+        // restTemplate.exchange(autorizationUrl, HttpMethod.GET, null, String.class);
+
+        System.out.println("인증 URL 리턴22222222"+restTemplate.exchange(autorizationUrl, HttpMethod.GET, null, String.class));
+        return  restTemplate.exchange(autorizationUrl, HttpMethod.GET, null, String.class);
     }
 }

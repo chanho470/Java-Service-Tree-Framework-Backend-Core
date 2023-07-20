@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletResponse;
@@ -50,27 +51,19 @@ public class JiraCloudController {
     }
 
 
-//    @GetMapping("Autorize")
-//    public void requestautorizationUrl(HttpServletResponse response)throws IOException {
-//        String body = oauthClient.requestautorizationUrl();
-//        response.setContentType("text/html");
-//        PrintWriter out = response.getWriter();
-//        out.println(body);
-//    }
-
-    @GetMapping("Callback")
-    public ResponseEntity requestautorizationUrl(){
-
+    @GetMapping("Autorize")
+    public ResponseEntity requestautorizationUrl( )  {
         ResponseEntity response =oauthClient.requestautorizationUrl();
         System.out.println("response 응답데이터"+response);
         return response;
-
     }
-//    @GetMapping("Callback")
-//    public RedirectView callback() {
 
-//                String callbackUrl = "http://localhost:31313/arms/jiraCloud/Callback";
-//        return new RedirectView(callbackUrl);
-//    }
+    @GetMapping("Callback")
+    public String  CallBackFunc(@RequestParam String state, @RequestParam String code) {
+        System.out.println("코드 받아오기 :"+code);
+        oauthClient.GetToken(code);
+        return "";
+    }
+
 
 }

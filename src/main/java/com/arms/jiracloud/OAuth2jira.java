@@ -1,6 +1,8 @@
 package com.arms.jiracloud;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.*;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
@@ -24,11 +26,12 @@ public class OAuth2jira {
         return  restTemplate.exchange(autorizationUrl, HttpMethod.GET, null, String.class);
     }
 
+    @Value("${OAuth.clientId}")
+    private String clientId;
+    @Value("${OAuth.clientSecret}")
+    private  String clientSecret;
 
-    private static final String clientId ="mf9ZDzYl5r0LqO2r4ojp7LLL9EGRKrGa";
     private static final String grantType = "authorization_code";
-    private static final String clientSecret ="ATOAjZMoVb6PD9VpYi1YWi18rshi76uRObPTtD2PK5hTuTNaTYwbFa8dWnuQhRWlwFSZ0976C414";
-
     private static final String redirectUri = "http://localhost:31313/arms/jiraCloud/Callback";
 
     public String GetToken(String code){

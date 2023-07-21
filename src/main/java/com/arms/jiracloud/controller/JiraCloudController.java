@@ -59,10 +59,9 @@ public class JiraCloudController {
     }
 
     @GetMapping("Callback")
-    public String  CallBackFunc(@RequestParam String state, @RequestParam String code) {
+    public void  CallBackFunc(@RequestParam String state, @RequestParam String code) {
         System.out.println("코드 받아오기 :"+code);
         oauthClient.GetToken(code);
-        return "";
     }
 
 

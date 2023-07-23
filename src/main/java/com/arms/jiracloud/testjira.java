@@ -1,5 +1,6 @@
 package com.arms.jiracloud;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
@@ -8,9 +9,9 @@ import java.util.Base64;
 
 public class testjira {
 
-    private static final String username = "chanho9611@gmail.com";
-    private static final String password = "ATATT3xFfGF0iohROaJjDtf-me3WtnFFjhwJAZJmNp4ricHtSQkJhoQ3quKSv615E-f__pVkO8jKGUVndcufhgmfdjkcTOdLafNIHABGCtyQp705Na9j4zS7Pw-iTXeo-81WsoWkHHk9dUu6DBMB4CGoZAAET_G2SUFKibgMVkB4U7oYaQQrUhs=EC1DE5C6";
-    private static final String jiraBaseURL = "https://testchkim.atlassian.net/rest/api/3/";
+    @Value("${OAuth.cloudId}")
+    private String cloudId;
+    private static final String jiraBaseURL = "https://api.atlassian.com/ex/jira/fd024501-325e-45cb-9789-1c90fe504440";
     private RestTemplate restTemplate;
     private HttpHeaders httpHeaders;
 
@@ -18,24 +19,18 @@ public class testjira {
 
     public testjira() {
         restTemplate = new RestTemplate();
-        httpHeaders = createHeadersWithAuthentication();
+        httpHeaders = new HttpHeaders();
     }
 
-    private HttpHeaders createHeadersWithAuthentication() {
-        String plainCreds = username + ":" + password;
-        byte[] base64CredsBytes = Base64.getEncoder().encode(plainCreds.getBytes());
-        String base64Creds = new String(base64CredsBytes);
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("Authorization", "Basic " + base64Creds);
-
-        return headers;
-    }
-
-    public ResponseEntity getIssue(String issueId) {
+    public ResponseEntity getIssue(String issueId,String accessToken) {
         String url = jiraBaseURL + "issue/" + issueId;
 
-        HttpEntity<?> requestEntity = new HttpEntity(httpHeaders);
+        System.out.println("getIssue에서 accessToken:"+accessToken);
+
+        // HttpHeaders에 Authorization 헤더 추가
+        httpHeaders.setBearerAuth(accessToken);
+
+        HttpEntity<?> requestEntity = new HttpEntity<>(httpHeaders); // HttpEntity의 Generic 타입 설정
         return restTemplate.exchange(url, HttpMethod.GET, requestEntity, String.class);
     }
 
